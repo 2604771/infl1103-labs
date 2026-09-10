@@ -11,7 +11,10 @@ while True:
         print("Invalid input. Please enter a valid integer.")
         failed_entries += 1
         continue
-    
+    if inventory < 0:
+        print("Invalid input. Inventory count cannot be negative.")
+        failed_entries += 1
+        continue
 
 
 
