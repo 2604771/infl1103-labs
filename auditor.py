@@ -16,6 +16,11 @@ while True:
         failed_entries += 1
         continue
     Total_Unit_Processed += inventory
+    if inventory >500:
+        print("Inventory count exceeds the maximum limit of 500. Please enter a valid count.")
+        failed_entries += 1
+        continue
+    
 
 
 
