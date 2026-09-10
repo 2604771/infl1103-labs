@@ -7,6 +7,11 @@ while True:
     if inventory == 'quit':
         break 
     inventory = int(inventory)
+    if not inventory.isdigit():
+        print("Invalid input. Please enter a valid integer.")
+        failed_entries += 1
+        continue
+    
 
 
 
