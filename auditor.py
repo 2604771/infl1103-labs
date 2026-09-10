@@ -15,6 +15,7 @@ while True:
         print("Invalid input. Inventory count cannot be negative.")
         failed_entries += 1
         continue
+    Total_Unit_Processed += inventory
 
 
 
