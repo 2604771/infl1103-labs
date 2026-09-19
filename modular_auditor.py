@@ -1,7 +1,25 @@
+inventory = 0
 failed_entries = 0
 Total_Unit_Processed = 0
-#Requirement 2: Continuous Loop for user to enter stock quantity until
-#the user types quit
+#Requirement 2: Create a get valid input function to accept the inventory key in
+#Job A: Getting a validated input 
+#Job B: Keeping running totals (Total_Unit_Processed,failed entries)
+def get_valid_input(): 
+    entry = input ("Enter the inventory the inventory count (or 'quit' to exit ):")
+    if entry =='quit':
+        return 'quit'
+    if not entry.isdigit():
+        print("Invalid input. Please enter a valid integer.")
+        return None
+    entry
+
+
+
+
+
+
+
+
 while True:
     inventory = input("Enter the inventory count (or 'quit' to exit): ")
     # Check quit first
@@ -26,9 +44,8 @@ while True:
         print("Inventory count exceeds the maximum limit of 500. Please enter a valid count.")
         failed_entries += 1
         continue
-#Requirement 8: Create a report of the total units processed and the number of failed entries
-print("total units processed:", Total_Unit_Processed)
-print("total failed entries:", failed_entries)
+
+total_Unit_Processed ==
 
 
 
