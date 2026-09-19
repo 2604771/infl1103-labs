@@ -1,3 +1,9 @@
+
+
+
+
+
+
 #Requirement 2: Create a get valid input function to accept the inventory key in
 #Job A: Getting a validated input 
 #Job B: Keeping running totals (Total_Unit_Processed,failed entries)
@@ -28,29 +34,12 @@ def process_delivery(current_total, new_value):
 def calculate_tax(amount):
     return amount *0.10
 
-def main():
-    inventory = 0
-    Total_Unit_Processed = 0
-    failed_entries = 0
-
-    while True:
-        inventory = get_valid_input()
-
-        if inventory == 'quit':
-            break
-
-        if inventory is None:
-            failed_entries += 1
-            continue
-
-        Total_Unit_Processed = process_delivery(Total_Unit_Processed, inventory)
-        tax = calculate_tax(inventory)
-        print(f"Delivery of {inventory} units processed. Tax on this delivery: {tax}")
-
-    generate_report(Total_Unit_Processed, failed_entries)
+ #generated a report
+def generate_report(total_units_processed, failed_attempts):
+    print ("total unit proccessed:", total_units_processed)
+    print ("total failed entried:", failed_attempts)
 
 
-main()
 
 
 
