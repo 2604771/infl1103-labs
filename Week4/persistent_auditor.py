@@ -36,7 +36,7 @@ def main():
         next_id += 1
 
     
-    save_inventory(history)
+    
     generate_report(Total_Unit_Processed , Failed_entries)
 
 #Job A: Getting a validated input 
@@ -106,12 +106,7 @@ def load_inventory():
             history.append((order_id, name, quantity, cost)) 
             #history (0,1,2,3), "append" = addition to the list
     return history
-def save_inventory(history):
-    file = open("inventory.txt", "w")
-    for order in history: 
-        order_id, name, quantity, cost = order 
-        file.write(f"{order_id},{name}, {quantity}, {cost}\n")
-    file.close()
+
 
 main()
 
