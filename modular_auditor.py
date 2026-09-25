@@ -3,18 +3,18 @@ def main():
     Total_Unit_Processed= 0
     Failed_entries= 0 
     while True: 
-        inventory =get_valid_input()
-
+        inventory = get_valid_input()
         if inventory =='quit':
             break 
         if inventory is None: 
-            failed_entries += 1
+            Failed_entries += 1
             continue 
-        Total_Unit_Processed=process_delivery(Total_Unit_Processed,inventory)
-        tax= calculate_tax
-        print(f"Delivery of {inventory} units processed. tax on this delivery: {tax}")
 
-        generate_report(Total_Unit_Processed, Failed_entries)
+        Total_Unit_Processed=process_delivery(Total_Unit_Processed, inventory)
+        tax= calculate_tax(inventory)
+        print(f"Delivery of {inventory} units processed. Tax on this delivery: {tax}")
+
+    generate_report(Total_Unit_Processed, Failed_entries)
 
 
 #Requirement 2: Create a get valid input function to accept the inventory key in
