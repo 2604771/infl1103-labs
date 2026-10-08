@@ -92,8 +92,24 @@ def search_product(inventory):
     print("-" * 48) #prints "-" 48 times
 
 
+#Requirement 3: Data Pesistence 
+def load_inventory(): 
+    if os.path(FILE_NAME):
+        print(f"{FILE_NAME} found.")
+        with open(FILE_NAME, "r") as file: 
+            inventory = json.load(file) #turns JSON text back into lists of dicts
+        print("Inventory loaded succesfully.")
+        return inventory 
+    print(f"{FILE_NAME} not found. Starting with an empty inventory.")
+    return []
+
+def save_inventory(inventory):
+    with open(FILE_NAME, "w") as file: 
+        json.dump(inventory, file, indent=4) #indent=4 makes the file readable 
+        
+
 def main():
-    
+
 #Job A: Getting a validated input 
 #def get_product_quantity(next_id): 
     product_name = input("Enter Product name (or 'quit' to exit): ")
