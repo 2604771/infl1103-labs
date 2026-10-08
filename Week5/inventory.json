@@ -16,5 +16,11 @@
         "name": "Keyboard",
         "price": 45.0,
         "stock": 25
+    },
+    {
+        "id": "2",
+        "name": "222",
+        "price": 222.0,
+        "stock": 22
     }
 ]
