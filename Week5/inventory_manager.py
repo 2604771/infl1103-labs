@@ -1,55 +1,101 @@
 import os
 import json
 
+#Each product is a dictionary; the inventory is a list of dictionaries.
+# Example of what the inventory list looks like:
+# [
+#     {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
+#     {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 40},
+
+#Requirement 2: Data manipulation 
 FILE_NAME = "inventory.json"
 #help find product by its ID, returns the dictionary or none
 def find_product(inventory, prodcut_id): 
     for product in inventory: 
-        if prodcut["id"].upper() == prodcut_id.upper():
+        if product["id"].upper() == prodcut_id.upper():
             return product
     return None
 
+def get_stock_input(prompt):
+    stock = input(prompt)
+    if not stock.isdigit():   #isdigit() also rejects negative numbers
+        print("Invalid input. Please enter a whole number.")
+        return None
+    stock = int(stock)
+    if stock > 500:
+        print("Stock exceeds the maximum limit of 500.")
+        return None
+    return stock
+
+def display_all(inventory):
+    print("\nCurrent Inventory")
+    print("-"* 48)
+    if not inventory:
+        print("Inventory is empty.")
+    for product in inventory:
+        print(f"ID: {product['id']} | Name: {product['name']} | "
+              f"Price: ${product['price']:.2f} | Stock: {product['stock']}")
+    print("-" * 48)
+
+def add_product(inventory):
+    print("\nAdd New Product")
+    product_id = input("Product ID: ").strip().upper()
+    if product_id == "":
+        print("Product ID cannot be empty.")
+        return
+    if find_product(inventory, product_id) is not None:
+        print("Product ID already exists.")
+        return
+
+    name=input("Product Name: ").strip()
+
+    #price can have decimals, so use float(),instead of a isdigit()
+    try:
+        price = float(input("Price: "))
+    except ValueError:
+        print("Invalid input. Price must be a number.")
+        return
+    if price < 0:
+        print("Invalid input. Price cannot be negative.")
+        return
+
+def update_stock(inventory):
+    print("\nUpdate Stock")
+    product_id = input("Enter Product Id:").strip()
+    product = find_prodcut(inventory, product_id)
+    if product is None: 
+        print("\nProduct not found.")
+        return
+    print("\nProduct Found:")
+    print(f"Name: {product['name']}")
+    print(f"Current Stock: {product['stock']}")
+
+    new_stock = get_stock_input("\nNew Stock Quantity: ")
+    if new_stock is None:
+        return
+    product["stock"] = new_stock   #changes the dictionary inside the list directly
+    print("\nStock updated successfully!")
+
+def search_product(inventory):
+    print("\nSearch Product")
+    product_id = input("Enter Product ID: ").strip()
+    product = find_product(inventory, product_id)
+    if product is None:
+        print("\nProduct not found.")
+        return
+    print("\nProduct Found")
+    print("-" * 48)
+    print(f"ID: {product['id']}")
+    print(f"Name: {product['name']}")
+    print(f"Price: ${product['price']:.2f}")
+    print(f"Stock: {product['stock']}")
+    print("-" * 48) #prints "-" 48 times
+
+
 def main():
-    Total_Unit_Processed = 0
-    Failed_entries = 0
-    history = load_inventory()
-    print("Current Orders:\n")
-
-    for order in history: 
-        order_id, name, quantity, cost = order
-        print(f"{order_id}, {name}, {quantity}")
-        print()
-    if history: 
-        next_id = history[-1][0] + 1
-    else:
-        next_id = 1001
-
-    while True:
-        result = get_product_quantity(next_id)  
-        if result == 'quit':
-            break
-
-        if result is None:
-            Failed_entries += 1
-            continue
-
-        order_id, name, quantity, cost = result
-        history.append(result)
-        Total_Unit_Processed += cost #still bundled together as one unit — 
-        #not the four separate unpacked variables
-        tax = calculate_tax(cost)
-        print(f"\nNew Order Added:\n{order_id},{name},{quantity}\n")
-        #"\n" still bundled together as one unit — not the four separate unpacked 
-        #variables
-        print(f"Tax on this order: {tax}")
-        next_id += 1
-
     
-    save_inventory(history)
-    generate_report(Total_Unit_Processed , Failed_entries)
-
 #Job A: Getting a validated input 
-def get_product_quantity(next_id): 
+#def get_product_quantity(next_id): 
     product_name = input("Enter Product name (or 'quit' to exit): ")
     if product_name == 'quit':
         return 'quit'
@@ -79,19 +125,19 @@ def get_product_quantity(next_id):
     return (next_id, product_name, quantity, cost)
 
 #to create a process delivery and tax amount modular 
-def process_delivery(current_total, new_value):
+#def process_delivery(current_total, new_value):
     return current_total+ new_value
 
 #For tax amount on the cost
-def calculate_tax(amount):
+#def calculate_tax(amount):
     return amount *0.10
 
  #generated a report
 #for generating report on total units processed and failed attempts
-def generate_report(total_units_processed, failed_attempts):
+#def generate_report(total_units_processed, failed_attempts):
     print ("total unit proccessed:", total_units_processed)
     print ("total failed entried:", failed_attempts)
-
+ 
 #Lab 4 Requirement 1: Start the program and read the information 
 def load_inventory():
     print("load_inventory() has started running")
