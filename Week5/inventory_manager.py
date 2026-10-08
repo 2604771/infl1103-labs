@@ -59,10 +59,17 @@ def add_product(inventory):
         print("Invalid input. Price cannot be negative.")
         return
 
+    stock = get_stock_input("Stock Quantity: ")
+    if stock is None:
+        return
+
+    inventory.append({"id": product_id, "name": name, "price": price, "stock": stock})
+    print("\nProduct added successfully!")
+
 def update_stock(inventory):
     print("\nUpdate Stock")
     product_id = input("Enter Product Id:").strip()
-    product = find_prodcut(inventory, product_id)
+    product = find_product(inventory, product_id)
     if product is None: 
         print("\nProduct not found.")
         return
@@ -94,97 +101,75 @@ def search_product(inventory):
 
 #Requirement 3: Data Pesistence 
 def load_inventory(): 
-    if os.path(FILE_NAME):
+    if os.path.exists(FILE_NAME):
         print(f"{FILE_NAME} found.")
         with open(FILE_NAME, "r") as file: 
             inventory = json.load(file) #turns JSON text back into lists of dicts
-        print("Inventory loaded succesfully.")
-        return inventory 
-    print(f"{FILE_NAME} not found. Starting with an empty inventory.")
-    return []
+        if inventory:   #only use the file if it actually has products in it
+            print("Inventory loaded succesfully.")
+            return inventory
+        print(f"{FILE_NAME} is empty. Loading default products.")
+    else:
+        print(f"{FILE_NAME} not found. Loading default products.")
+
+    #default products so option 1 always has something to show
+    return [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
+        {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 40},
+        {"id": "P003", "name": "Keyboard", "price": 45.00,   "stock": 25}
+        ]
 
 def save_inventory(inventory):
     with open(FILE_NAME, "w") as file: 
         json.dump(inventory, file, indent=4) #indent=4 makes the file readable 
-        
+
+
+#Requirement 4: Menu System
+def show_menu(): 
+        print("\n----------- MENU -----------")
+        print("1. Display All Products")
+        print("2. Add Product")
+        print("3. Update Stock")
+        print("4. Search Product")
+        print("5. Save Inventory")
+        print("6. Exit")
+        print("----------------------------")
 
 def main():
+    print("Inventory Management System")
+    print()
 
-#Job A: Getting a validated input 
-#def get_product_quantity(next_id): 
-    product_name = input("Enter Product name (or 'quit' to exit): ")
-    if product_name == 'quit':
-        return 'quit'
-    quantity = input("Enter Quantiy: ")
-    if not quantity.isdigit():
-            print("Invalid input. Please enter a valid integer.")
-            return None
-    quantity =int(quantity)
-    
-     #Ensure it is not a negative value 
-    if quantity <0:  
-        print ("Invalid Input.Inventory quantity ")  
-        return None
-    #Ensure it is not over-amount
-    if quantity >500:
-        print("Inventory quatity exceeds the maximum limit of 500.Please enter valid cound")
-        return None
-    
-    cost = input("Enter Inventory Cost: ")
-    if not cost.isdigit():
-        print("Invalid input. Please enter a valid integer.")
-        return None
-    cost = int(cost)
-    if cost < 0:
-     print("Invalid input. Cost cannot be negative.")
-     return None
-    return (next_id, product_name, quantity, cost)
+    inventory = load_inventory()
 
-#to create a process delivery and tax amount modular 
-#def process_delivery(current_total, new_value):
-    return current_total+ new_value
+    while True: 
+        show_menu()
+        option = input("\n Enter option: ").strip()
+        if option == "1":
+            display_all(inventory)
+        elif option == "2":
+            add_product(inventory)
+        elif option == "3":
+            update_stock(inventory)
+        elif option == "4":
+            search_product(inventory)
+        elif option == "5":
+            print("\nSaving inventory...")
+            save_inventory(inventory)
+            print(f"Inventory saved successfully to {FILE_NAME}.")
+        elif option == "6":
+            print("\nSaving inventory before exit...")
+            save_inventory(inventory)
+            print("Inventory saved successfully.")
+            print("\nThank you for using Inventory Management System.")
+            print("Program terminated.")
+            break
+        else:
+            print("Invalid option. Please enter 1-6.")
 
-#For tax amount on the cost
-#def calculate_tax(amount):
-    return amount *0.10
-
- #generated a report
-#for generating report on total units processed and failed attempts
-#def generate_report(total_units_processed, failed_attempts):
-    print ("total unit proccessed:", total_units_processed)
-    print ("total failed entried:", failed_attempts)
- 
-#Lab 4 Requirement 1: Start the program and read the information 
-def load_inventory():
-    print("load_inventory() has started running")
-    #history arrays
-    history= []
-    if os.path.exists("inventory.txt"):
-        print("inventory.txt found, attempting to open...")
-        file = open ("inventory.txt", "r") #to open the file 
-        lines = file.readlines()
-        file.close()
-        #to load the history and formatting it 
-        for line in lines : 
-            line = line.strip()
-            if line == "":
-             continue 
-            parts = line.split(",")
-            order_id = int(parts[0])
-            name = parts[1]
-            quantity = int(parts[2])
-            cost = int(parts[3])
-            history.append((order_id, name, quantity, cost)) 
-            #history (0,1,2,3), "append" = addition to the list
-    return history
-def save_inventory(history):
-    file = open("inventory.txt", "w")
-    for order in history: 
-        order_id, name, quantity, cost = order 
-        file.write(f"{order_id},{name}, {quantity}, {cost}\n")
-    file.close()
 
 main()
+
+   
+
 
 
 
