@@ -1,5 +1,8 @@
 import os
 import json
+from  product import Product
+from inventory import Inventory
+
 
 #Each product is a dictionary; the inventory is a list of dictionaries.
 # Example of what the inventory list looks like:
@@ -16,6 +19,7 @@ def find_product(inventory, prodcut_id):
             return product
     return None
 
+#Main Program (Get user input)
 def get_stock_input(prompt):
     stock = input(prompt)
     if not stock.isdigit():   #isdigit() also rejects negative numbers
@@ -27,6 +31,7 @@ def get_stock_input(prompt):
         return None
     return stock
 
+#Inventory Class (Display Products)
 def display_all(inventory):
     print("\nCurrent Inventory")
     print("-"* 48)
@@ -37,13 +42,14 @@ def display_all(inventory):
               f"Price: ${product['price']:.2f} | Stock: {product['stock']}")
     print("-" * 48)
 
+#Inventory class (Adds Prodcuts)
 def add_product(inventory):
     print("\nAdd New Product")
     product_id = input("Product ID: ").strip().upper()
     if product_id == "":
         print("Product ID cannot be empty.")
         return
-    if find_product(inventory, product_id) is not None:
+    if inventory.search_product(product_id) is not None:
         print("Product ID already exists.")
         return
 
@@ -63,67 +69,81 @@ def add_product(inventory):
     if stock is None:
         return
 
-    inventory.append({"id": product_id, "name": name, "price": price, "stock": stock})
+    product = Product(product_id, name, price, stock)
+    inventory.add_product(product)
     print("\nProduct added successfully!")
 
+#Inventory Class (Update Stock)
 def update_stock(inventory):
     print("\nUpdate Stock")
     product_id = input("Enter Product Id:").strip()
-    product = find_product(inventory, product_id)
+    product = inventory.search_product(product_id)
     if product is None: 
         print("\nProduct not found.")
         return
     print("\nProduct Found:")
-    print(f"Name: {product['name']}")
-    print(f"Current Stock: {product['stock']}")
-
+    print(f"Name: {product.get_name()}")
+    print(f"Current Stock: {product.get_stock()}")
     new_stock = get_stock_input("\nNew Stock Quantity: ")
     if new_stock is None:
         return
-    product["stock"] = new_stock   #changes the dictionary inside the list directly
-    print("\nStock updated successfully!")
-
+    if product.update_stock(new_stock):
+        print("\nStock updated successfully!")
+    else:
+        print("Invalid stock quantity. ")
+#Inventory Class( Seach products)
 def search_product(inventory):
     print("\nSearch Product")
     product_id = input("Enter Product ID: ").strip()
-    product = find_product(inventory, product_id)
+    product = inventory.search_product(product_id)
     if product is None:
         print("\nProduct not found.")
         return
     print("\nProduct Found")
     print("-" * 48)
-    print(f"ID: {product['id']}")
-    print(f"Name: {product['name']}")
-    print(f"Price: ${product['price']:.2f}")
-    print(f"Stock: {product['stock']}")
-    print("-" * 48) #prints "-" 48 times
+    product.display_information()
+    print("-"*48)
+
 
 
 #Requirement 3: Data Pesistence 
 def load_inventory(): 
+
+    inventory = Inventory()
+    data = []
     if os.path.exists(FILE_NAME):
         print(f"{FILE_NAME} found.")
         with open(FILE_NAME, "r") as file: 
-            inventory = json.load(file) #turns JSON text back into lists of dicts
-        if inventory:   #only use the file if it actually has products in it
-            print("Inventory loaded succesfully.")
-            return inventory
-        print(f"{FILE_NAME} is empty. Loading default products.")
-    else:
-        print(f"{FILE_NAME} not found. Loading default products.")
+            data = json.load(file)
 
-    #default products so option 1 always has something to show
-    return [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
+        if data: 
+            print("Inventory loaded successfully.")
+        else: 
+            print(f"{FILE_NAME} is empty. Loading default products. ")
+    else:
+        print(f"{FILE_NAME} not found. Loading default products. ")
+    
+    if not data: 
+        data = [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
         {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 40},
         {"id": "P003", "name": "Keyboard", "price": 45.00,   "stock": 25}
         ]
 
+    for item in data: 
+        product = Product(item["id"], item["name"], item["price"], item["stock"])
+        inventory.add_product(product)
+
+    return inventory
+
+#File handling class 
 def save_inventory(inventory):
-    with open(FILE_NAME, "w") as file: 
-        json.dump(inventory, file, indent=4) #indent=4 makes the file readable 
-
-
-#Requirement 4: Menu System
+    data = []
+    for product in inventory.get_products():     #"shelf, give me all your boxes"
+        data.append(product.to_dict())           #"box, turn yourself into a dict"
+    with open(FILE_NAME, "w") as file:
+        json.dump(data, file, indent=4)          #save the list of dicts
+       
+#Main Program Class
 def show_menu(): 
         print("\n----------- MENU -----------")
         print("1. Display All Products")
@@ -134,6 +154,7 @@ def show_menu():
         print("6. Exit")
         print("----------------------------")
 
+#Main Program Class
 def main():
     print("Inventory Management System")
     print()
@@ -144,7 +165,7 @@ def main():
         show_menu()
         option = input("\n Enter option: ").strip()
         if option == "1":
-            display_all(inventory)
+            inventory.display_all()
         elif option == "2":
             add_product(inventory)
         elif option == "3":

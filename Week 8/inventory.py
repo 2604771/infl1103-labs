@@ -23,7 +23,7 @@ class Inventory:
                 return product
         return None
 
-    def get_product(self):
+    def get_products(self):
         return self.__products
     
 if __name__ == "__main__":
