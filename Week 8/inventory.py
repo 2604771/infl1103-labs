@@ -15,7 +15,7 @@ class Inventory:
             print ("Inventory is empty.")
         for product in self.__products:
             product.display_information()
-        print("_"*48)
+    
 
     def search_product(self, product_id):
         for product in self.__products:

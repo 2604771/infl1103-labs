@@ -4,7 +4,6 @@ from  product import Product
 from inventory import Inventory
 
 
-#Each product is a dictionary; the inventory is a list of dictionaries.
 # Example of what the inventory list looks like:
 # [
 #     {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
@@ -12,12 +11,6 @@ from inventory import Inventory
 
 #Requirement 2: Data manipulation 
 FILE_NAME = "inventory.json"
-#help find product by its ID, returns the dictionary or none
-def find_product(inventory, prodcut_id): 
-    for product in inventory: 
-        if product["id"].upper() == prodcut_id.upper():
-            return product
-    return None
 
 #Main Program (Get user input)
 def get_stock_input(prompt):
@@ -30,17 +23,6 @@ def get_stock_input(prompt):
         print("Stock exceeds the maximum limit of 500.")
         return None
     return stock
-
-#Inventory Class (Display Products)
-def display_all(inventory):
-    print("\nCurrent Inventory")
-    print("-"* 48)
-    if not inventory:
-        print("Inventory is empty.")
-    for product in inventory:
-        print(f"ID: {product['id']} | Name: {product['name']} | "
-              f"Price: ${product['price']:.2f} | Stock: {product['stock']}")
-    print("-" * 48)
 
 #Inventory class (Adds Prodcuts)
 def add_product(inventory):
