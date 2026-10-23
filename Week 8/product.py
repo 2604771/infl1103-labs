@@ -25,7 +25,6 @@ class Product:
     def get_stock(self):
         return self.__stock
 
-    #from Week 5 line 83: product["stock"] = new_stock
     #the product checks the value itself before accepting it (encapsulation)
     #returns True/False so the caller decides what message to show the user
     def update_stock(self, quantity):
@@ -44,18 +43,3 @@ class Product:
         return {"id": self.__product_id, "name": self.__name,
                 "price": self.__price, "stock": self.__stock}
 
-
-#quick test: only runs when this file is run directly, not when it is imported
-if __name__ == "__main__":
-    p1 = Product("P001", "Laptop", 1200.00, 15)
-    p2 = Product("P002", "Mouse", 25.50, 40)
-
-    p1.display_information()
-    p2.display_information()
-
-    print(p1.update_stock(50))    #True
-    print(p1.update_stock(999))   #False, over the limit
-    p1.display_information()      #stock should be 50
-
-    print(p1.get_product_id())    #P001
-    print(p2.to_dict())

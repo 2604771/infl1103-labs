@@ -26,15 +26,7 @@ class Inventory:
     def get_products(self):
         return self.__products
     
-if __name__ == "__main__":
-    inventory = Inventory()
-    inventory.add_product(Product("P001", "Laptop", 1200.00, 15))
-    inventory.add_product(Product("P002", "Mouse", 25.50, 40))
-    inventory.display_all()
-    found = inventory.search_product("p002")    #lowercase on purpose
-    if found:
-        found.display_information()             #should show Mouse
-    print(inventory.search_product("P999"))     #should print None
+
 
 
 
