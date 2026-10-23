@@ -1,0 +1,29 @@
+﻿commit ad70cc3b4baca3002a95b995a45d6e3718a6752e
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Fri Oct 23 15:15:58 2026 +0800
+
+     docker run and diagram
+
+commit edec3c2ab13f92b9f84b6b6454c80df76f96fe82
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Fri Oct 23 14:33:58 2026 +0800
+
+    Completed OOP inventory management system
+
+commit b7480930c7f3b5b82d17cae1b2060d62aee830dc
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Fri Oct 23 14:21:05 2026 +0800
+
+    Refactored inventory system using OOP
+
+commit 4bb287bf9b1d357e0a713695ec89cbe764357f71
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Thu Oct 22 21:52:20 2026 +0800
+
+    Created Inventory class
+
+commit c1afba7619fcee394ebfd52d8b7b59964f1ee499
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Thu Oct 22 17:26:23 2026 +0800
+
+    Created Product class
