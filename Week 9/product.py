@@ -31,6 +31,7 @@ class Product(ABC):
     def get_fulfilment_info(self):
         pass 
 
+
     #the product checks the value itself before accepting it (encapsulation)
     #returns True/False so the caller decides what message to show the user
     def update_stock(self, quantity):
