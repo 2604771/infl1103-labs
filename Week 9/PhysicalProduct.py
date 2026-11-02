@@ -1,4 +1,5 @@
 from product import Product
+from abc import ABC, abstractmethod
 
 class PhysicalProduct(Product):
     def __init__(self,product_id,name,price,stock,weight):
@@ -9,6 +10,11 @@ class PhysicalProduct(Product):
         super().display_information()
         print(f"Weight: {self.__weight} kg")
 
+    def get_fulfilment_info(self):
+            return "This product requires physical shipping."
+    
+
 if __name__ == "__main__":
     Laptop = PhysicalProduct("P001", "Laptop", 299.99,10, 2.0)
     Laptop.display_information()
+    print(Laptop.get_fulfilment_info())

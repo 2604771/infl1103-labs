@@ -1,9 +1,11 @@
+from abc import ABC, abstractmethod
+
 #SRP: Product is responsible for representing and managing ONE product.
 #It does not load/save files, ask for user input, or manage the whole inventory.
 
 MAX_STOCK = 500
 
-class Product:
+class Product(ABC):
     #from Week 5 line 66: {"id": product_id, "name": name, "price": price, "stock": stock}
     #each dict key becomes a private attribute
     def __init__(self, product_id, name, price, stock):
@@ -25,6 +27,10 @@ class Product:
     def get_stock(self):
         return self.__stock
 
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass 
+
     #the product checks the value itself before accepting it (encapsulation)
     #returns True/False so the caller decides what message to show the user
     def update_stock(self, quantity):
@@ -42,4 +48,8 @@ class Product:
     def to_dict(self):
         return {"id": self.__product_id, "name": self.__name,
                 "price": self.__price, "stock": self.__stock}
+
+
+if __name__ == "__main__":
+    mystery = Product("P999", "Mystery", 10.0, 5)
 
