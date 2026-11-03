@@ -1,5 +1,4 @@
-#SRP: Inventory is responsible for managing a collection of Product objects.
-from product import Product
+
 
 class Inventory:
     def __init__(self):
@@ -16,7 +15,6 @@ class Inventory:
         for product in self.__products:
             product.display_information()
     
-
     def search_product(self, product_id):
         for product in self.__products:
             if product.get_product_id() == product_id.upper():

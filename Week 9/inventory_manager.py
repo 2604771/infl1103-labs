@@ -1,31 +1,43 @@
 import os
 import json
-from  product import Product
 from inventory import Inventory
+from PhysicalProduct import PhysicalProduct
+from DigitalProduct import DigitalProduct
 
-
-# Example of what the inventory list looks like:
-# [
-#     {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
-#     {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 40},
 
 #Requirement 2: Data manipulation 
 FILE_NAME = "inventory.json"
 
 #Main Program (Get user input)
 def get_stock_input(prompt):
-    stock = input(prompt)
-    if not stock.isdigit():   #isdigit() also rejects negative numbers
-        print("Invalid input. Please enter a whole number.")
-        return None
-    stock = int(stock)
-    if stock > 500:
-        print("Stock exceeds the maximum limit of 500.")
-        return None
-    return stock
+    while True:
+        try:
+            stock = int(input(prompt))
+        except ValueError:
+            print("Invalid input. Please enter a whole number.")
+            continue
+        if stock <0:
+            print("Invalid input. Stock cannot be negative")
+            continue
+        if stock > 500:
+         print("Stock exceeds the maximum limit of 500.")
+         continue
+        return stock
+
+def get_positive_float(prompt):
+    while True:
+        try:
+            value = float(input(prompt))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue                      # skip the rest, ask again
+        if value < 0:
+            print("Invalid input. Value cannot be negative.")
+            continue
+        return value                      # valid → hand it back (also ends the loop)
 
 #Inventory class (Adds Prodcuts)
-def add_product(inventory):
+def menu_add_product(inventory: Inventory):
     print("\nAdd New Product")
     product_id = input("Product ID: ").strip().upper()
     if product_id == "":
@@ -38,25 +50,29 @@ def add_product(inventory):
     name=input("Product Name: ").strip()
 
     #price can have decimals, so use float(),instead of a isdigit()
-    try:
-        price = float(input("Price: "))
-    except ValueError:
-        print("Invalid input. Price must be a number.")
-        return
-    if price < 0:
-        print("Invalid input. Price cannot be negative.")
-        return
+    price = get_positive_float("Price: ")
 
     stock = get_stock_input("Stock Quantity: ")
-    if stock is None:
-        return
 
-    product = Product(product_id, name, price, stock)
+    product_type = input("Product Type (P = Physical, D = Digital): ").strip().upper()
+
+    if product_type == "P":
+       weight= get_positive_float("Weight(Kg):")
+       product = PhysicalProduct (product_id, name, price, stock, weight)
+
+    elif product_type == "D":
+        download_size= get_positive_float("Download size(Mb):")
+        product = DigitalProduct(product_id, name, price, stock, download_size)
+
+    else:
+        print("Invalid product type. Please enter P or D")
+        return
+    
     inventory.add_product(product)
     print("\nProduct added successfully!")
 
 #Inventory Class (Update Stock)
-def update_stock(inventory):
+def menu_update_stock(inventory: Inventory):
     print("\nUpdate Stock")
     product_id = input("Enter Product Id:").strip()
     product = inventory.search_product(product_id)
@@ -73,8 +89,9 @@ def update_stock(inventory):
         print("\nStock updated successfully!")
     else:
         print("Invalid stock quantity. ")
-#Inventory Class( Seach products)
-def search_product(inventory):
+
+#Inventory Class(Seach products)
+def menu_search_product(inventory: Inventory):
     print("\nSearch Product")
     product_id = input("Enter Product ID: ").strip()
     product = inventory.search_product(product_id)
@@ -87,10 +104,8 @@ def search_product(inventory):
     print("-"*48)
 
 
-
 #Requirement 3: Data Pesistence 
 def load_inventory(): 
-
     inventory = Inventory()
     data = []
     if os.path.exists(FILE_NAME):
@@ -105,20 +120,28 @@ def load_inventory():
     else:
         print(f"{FILE_NAME} not found. Loading default products. ")
     
-    if not data: 
-        data = [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15},
-        {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 40},
-        {"id": "P003", "name": "Keyboard", "price": 45.00,   "stock": 25}
+    if not data: #adding existing products to inventory file
+        data = [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15, "type": "physical" , "weight": 2.0},
+        {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 15, "type": "physical" , "weight": 0.5}, 
+        {"id": "P003", "name": "window", "price": 45.00,   "stock": 15, "type" : "digital" , "download size" : 10}
         ]
 
     for item in data: 
-        product = Product(item["id"], item["name"], item["price"], item["stock"])
-        inventory.add_product(product)
+        if item["type"] == "physical":
+            product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item ["weight"])
+
+        elif item["type"] == "digital":
+            product= DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item ["download size"])
+
+        inventory.add_product(product) #function in inventory class
+        
+
+      
 
     return inventory
 
 #File handling class 
-def save_inventory(inventory):
+def save_inventory(inventory: Inventory):
     data = []
     for product in inventory.get_products():     #"shelf, give me all your boxes"
         data.append(product.to_dict())           #"box, turn yourself into a dict"
@@ -147,13 +170,13 @@ def main():
         show_menu()
         option = input("\n Enter option: ").strip()
         if option == "1":
-            inventory.display_all()
+            inventory.display_all() #from inventory class
         elif option == "2":
-            add_product(inventory)
+            menu_add_product(inventory)
         elif option == "3":
-            update_stock(inventory)
+            menu_update_stock(inventory)
         elif option == "4":
-            search_product(inventory)
+            menu_search_product(inventory)
         elif option == "5":
             print("\nSaving inventory...")
             save_inventory(inventory)

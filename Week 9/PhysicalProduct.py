@@ -4,7 +4,7 @@ from CanBeShipped import CanBeShipped
 Shipping_Base_Fee = 5.00
 Shipping_Rate_Per_KG = 2.00
 
-class PhysicalProduct(Product):
+class PhysicalProduct(Product, CanBeShipped):
     def __init__(self,product_id,name,price,stock,weight):
         super().__init__(product_id, name, price, stock)
         self.__weight = weight
@@ -18,6 +18,12 @@ class PhysicalProduct(Product):
 
     def calculate_shipping_cost(self):
          return Shipping_Base_Fee + self.__weight * Shipping_Rate_Per_KG
+
+    def to_dict(self):
+        data = super().to_dict() #parents build data
+        data["type"] = "physical"
+        data["weight"] = self.__weight #child extra attribute
+        return data #return the finished dict
     
     
 
@@ -26,3 +32,4 @@ if __name__ == "__main__":
     Laptop.display_information()
     print(Laptop.get_fulfilment_info())
     print(f"Shipping cost: ${Laptop.calculate_shipping_cost():.2f}")
+    print(Laptop.to_dict())
