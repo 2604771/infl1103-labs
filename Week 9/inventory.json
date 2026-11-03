@@ -22,21 +22,5 @@
         "stock": 15,
         "type": "digital",
         "download size": 10
-    },
-    {
-        "id": "P004",
-        "name": "Keyboard",
-        "price": 20.0,
-        "stock": 15,
-        "type": "physical",
-        "weight": 2.0
-    },
-    {
-        "id": "P005",
-        "name": "MacOs",
-        "price": 30.0,
-        "stock": 15,
-        "type": "digital",
-        "download size": 20.0
     }
 ]

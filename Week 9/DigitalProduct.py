@@ -1,4 +1,5 @@
-from product import Product 
+from product import Product
+
 
 class DigitalProduct(Product): 
     def __init__(self,product_id,name,price,stock,download_size):
@@ -7,7 +8,8 @@ class DigitalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"Download size: {self.__download_size} mb")
+        print(f"Download size: {self.__download_size} MB")
+        print(self.get_fulfilment_info())
 
     def get_fulfilment_info(self):
         return "This product is delivered digitally via download"
@@ -18,8 +20,6 @@ class DigitalProduct(Product):
         data["download size"] = self.__download_size
         return data
         
-
-    
 
 if __name__ == "__main__":
     Laptop = DigitalProduct("P001", "Laptop", 299.99,10, 2.0)

@@ -1,9 +1,9 @@
-import os
 import json
+import os
+
+from DigitalProduct import DigitalProduct
 from inventory import Inventory
 from PhysicalProduct import PhysicalProduct
-from DigitalProduct import DigitalProduct
-
 
 #Requirement 2: Data manipulation 
 FILE_NAME = "inventory.json"
