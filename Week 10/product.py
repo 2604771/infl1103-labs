@@ -14,29 +14,29 @@ class Product(ABC):
         self.__name = name
         self.__price = price
         self.__stock = stock
-        self.__supplier = supplier #supplier class 
+        self.__supplier:Supplier = supplier #supplier class 
 
     #getters: outside code can READ the values, but can't change them directly
-    def get_product_id(self):
+    def get_product_id(self) ->str:
         return self.__product_id
 
-    def get_name(self):
+    def get_name(self)->str:
         return self.__name
 
-    def get_price(self):
+    def get_price(self)->float:
         return self.__price
 
-    def get_stock(self):
+    def get_stock(self)->int:
         return self.__stock
 
     @abstractmethod
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self)->str:
         pass 
 
 
     #the product checks the value itself before accepting it (encapsulation)
     #returns True/False so the caller decides what message to show the user
-    def update_stock(self, quantity):
+    def update_stock(self, quantity)->bool:
         if quantity < 0 or quantity > MAX_STOCK:
             return False
         self.__stock = quantity
@@ -52,7 +52,7 @@ class Product(ABC):
         self.__supplier.display_information()
 
     #json can't save objects, so the product turns itself back into a dict for saving
-    def to_dict(self):
+    def to_dict(self)->dict:
         return {"id": self.__product_id, "name": self.__name,
                 "price": self.__price, "stock": self.__stock}
 

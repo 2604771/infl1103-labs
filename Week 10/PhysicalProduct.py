@@ -15,13 +15,13 @@ class PhysicalProduct(Product, CanBeShipped):
         print(f"Weight: {self.__weight} kg | Shipping: ${self.calculate_shipping_cost():.2f}")
         print(self.get_fulfilment_info())
     
-    def get_fulfilment_info(self):
+    def get_fulfilment_info(self)->None:
             return "This product requires physical shipping."
 
-    def calculate_shipping_cost(self):
+    def calculate_shipping_cost(self)->float:
          return Shipping_Base_Fee + self.__weight * Shipping_Rate_Per_KG
 
-    def to_dict(self):
+    def to_dict(self)->dict:
         data = super().to_dict() #parents build data
         data["type"] = "physical"
         data["weight"] = self.__weight #child extra attribute

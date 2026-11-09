@@ -4,7 +4,7 @@ class Supplier:
         self.__name = name 
         self.__contact_email = contact_email
 
-    def display_information(self):
+    def display_information(self)->None:
         print(f"ID:{self.__supplier} | Name:{self.__name} | Contact:{self.__contact_email}")
 
 
