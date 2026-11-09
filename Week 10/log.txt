@@ -1,0 +1,35 @@
+﻿commit 619c9d6f8d09f5fb8583a8738016e3499b7037e9
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 22:28:23 2026 +0800
+
+     manager integration, UML diagram
+
+commit b4636600d172b30a6c9e080fb9807df1f65c6d36
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 21:18:46 2026 +0800
+
+    LSP test and PolyMorphism
+
+commit 95944d84d1b1f1ca9c69368db4aa4a9fed47c941
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 16:42:33 2026 +0800
+
+    Section 5 type hints and section 6 LSP test
+
+commit 876dfa4037283a5daf7533f30546362e5ecfccce
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 16:11:50 2026 +0800
+
+    Test 4 and task 5 done
+
+commit 3850d224d5def03f7bd3c766b07f756a8ec715af
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 14:01:33 2026 +0800
+
+    2.2 Associate Supplier with Product Done
+
+commit 79340124ec576c26b174ad459faa3b3c52a80729
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Mon Nov 9 11:24:29 2026 +0800
+
+    Created Week 10 work
