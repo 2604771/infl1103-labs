@@ -1,12 +1,13 @@
 from product import Product
+from supplier import Supplier
 
 
 class DigitalProduct(Product): 
-    def __init__(self,product_id,name,price,stock,download_size):
-        super().__init__(product_id,name,price,stock)
+    def __init__(self,product_id:str,name:str,price:float,stock:int,download_size:float, supplier: Supplier):
+        super().__init__(product_id,name,price,stock, supplier)
         self.__download_size = download_size
 
-    def display_information(self):
+    def display_information(self)->None:
         super().display_information()
         print(f"Download size: {self.__download_size} MB")
         print(self.get_fulfilment_info())
@@ -22,10 +23,13 @@ class DigitalProduct(Product):
         
 
 if __name__ == "__main__":
-    Laptop = DigitalProduct("P001", "Laptop", 299.99,10, 2.0)
-    Laptop.display_information()
-    print(Laptop.get_fulfilment_info())
-    print(Laptop.to_dict())
+    Apple = Supplier("S001", "@Apple","sales@Apple.com")
+    MacOs = DigitalProduct("P001", "MacOs", 299.99,10, 2.0, Apple)
+    MacOs.display_information()
+    print(MacOs.to_dict())
+    
+
+
 
 
 
