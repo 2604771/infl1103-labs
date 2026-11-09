@@ -99,18 +99,18 @@ macbook.display_information()
 
 print("\n Test 6.2:LSP")
 
-def show_product_detials(product: Product)->None:
+def show_product_details(product: Product)->None:
         product.display_information()
         print(product.get_fulfilment_info())
 
 
 #same function, given a PhysicalProduct
 print("\nshow_product_details with a PhysicalProduct")
-show_product_detials(macbook)
+show_product_details(macbook)
 
 #same function, given a DigitalProduct
 print("\nshow_product_details with a DigitalProduct")
-show_product_detials(macos)
+show_product_details(macos)
 
 #both product types in ONE inventory, using its normal operations
 print("\nBoth product types in one Inventory")
@@ -118,3 +118,9 @@ inventory = Inventory()
 inventory.add_product(macbook)
 inventory.add_product(macos)
 inventory.display_all()
+
+print("\n Test 7")
+for product in inventory.get_products():
+    product.display_information()
+    print(product.get_fulfilment_info())
+    print()

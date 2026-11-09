@@ -12,10 +12,10 @@ class DigitalProduct(Product):
         print(f"Download size: {self.__download_size} MB")
      
 
-    def get_fulfilment_info(self)->None:
+    def get_fulfilment_info(self)->str:
         return "This product is delivered digitally via download"
 
-    def to_dict(self)->None:
+    def to_dict(self)->dict:
         data= super().to_dict()
         data["type"]= "digital"
         data["download size"] = self.__download_size

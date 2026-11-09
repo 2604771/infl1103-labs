@@ -36,7 +36,7 @@ class Product(ABC):
 
     #the product checks the value itself before accepting it (encapsulation)
     #returns True/False so the caller decides what message to show the user
-    def update_stock(self, quantity)->bool:
+    def update_stock(self, quantity:int)->bool:
         if quantity < 0 or quantity > MAX_STOCK:
             return False
         self.__stock = quantity
@@ -46,7 +46,7 @@ class Product(ABC):
         return self.__supplier
 
     #from Week 5 lines 36-37: the f-string that prints one product
-    def display_information(self) ->None:
+    def display_information(self) ->str:
         print(f"ID:{self.__product_id} | Name:{self.__name} | "
               f"Price: ${self.__price:.2f} | Stock:{self.__stock}")
         self.__supplier.display_information()
