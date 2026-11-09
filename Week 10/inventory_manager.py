@@ -4,9 +4,11 @@ import os
 from DigitalProduct import DigitalProduct
 from inventory import Inventory
 from PhysicalProduct import PhysicalProduct
+from supplier import Supplier
 
 #Requirement 2: Data manipulation 
 FILE_NAME = "inventory.json"
+SUPPLIER = Supplier("S001", "Apple", "orders@apple.example")
 
 #Main Program (Get user input)
 def get_stock_input(prompt):
@@ -58,11 +60,11 @@ def menu_add_product(inventory: Inventory):
 
     if product_type == "P":
        weight= get_positive_float("Weight(Kg):")
-       product = PhysicalProduct (product_id, name, price, stock, weight)
+       product = PhysicalProduct (product_id, name, price, stock, weight, SUPPLIER)
 
     elif product_type == "D":
         download_size= get_positive_float("Download size(Mb):")
-        product = DigitalProduct(product_id, name, price, stock, download_size)
+        product = DigitalProduct(product_id, name, price, stock, download_size, SUPPLIER)
 
     else:
         print("Invalid product type. Please enter P or D")
@@ -121,17 +123,17 @@ def load_inventory():
         print(f"{FILE_NAME} not found. Loading default products. ")
     
     if not data: #adding existing products to inventory file
-        data = [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15, "type": "physical" , "weight": 2.0},
-        {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 15, "type": "physical" , "weight": 0.5}, 
+        data = [ {"id": "P001", "name": "Laptop",   "price": 1200.00, "stock": 15, "type": "physical" , "weight": 2.0 },
+        {"id": "P002", "name": "Mouse",    "price": 25.50,   "stock": 15, "type": "physical" , "weight": 0.5,}, 
         {"id": "P003", "name": "window", "price": 45.00,   "stock": 15, "type" : "digital" , "download size" : 10}
         ]
 
     for item in data: 
         if item["type"] == "physical":
-            product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item ["weight"])
+            product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item ["weight"], SUPPLIER)
 
         elif item["type"] == "digital":
-            product= DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item ["download size"])
+            product= DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item ["download size"], SUPPLIER)
 
         inventory.add_product(product) #function in inventory class
         
@@ -143,10 +145,10 @@ def load_inventory():
 #File handling class 
 def save_inventory(inventory: Inventory):
     data = []
-    for product in inventory.get_products():     #"shelf, give me all your boxes"
-        data.append(product.to_dict())           #"box, turn yourself into a dict"
+    for product in inventory.get_products():     
+        data.append(product.to_dict())           
     with open(FILE_NAME, "w") as file:
-        json.dump(data, file, indent=4)          #save the list of dicts
+        json.dump(data, file, indent=4)          
        
 #Main Program Class
 def show_menu(): 

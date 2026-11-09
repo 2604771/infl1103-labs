@@ -6,7 +6,7 @@ Shipping_Base_Fee = 5.00
 Shipping_Rate_Per_KG = 2.00
 
 class PhysicalProduct(Product, CanBeShipped):
-    def __init__(self,product_id:str,name:str,price:float,stock: int,weight:float,supplier:Supplier):
+    def __init__(self,product_id:str,name:str,price:float,stock: int,weight:float, supplier:Supplier):
         super().__init__(product_id, name, price, stock, supplier)
         self.__weight = weight
 

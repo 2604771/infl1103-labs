@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from supplier import Supplier
 
 #SRP: Product is responsible for representing and managing ONE product.
@@ -46,7 +47,7 @@ class Product(ABC):
         return self.__supplier
 
     #from Week 5 lines 36-37: the f-string that prints one product
-    def display_information(self) ->str:
+    def display_information(self) ->None:
         print(f"ID:{self.__product_id} | Name:{self.__name} | "
               f"Price: ${self.__price:.2f} | Stock:{self.__stock}")
         self.__supplier.display_information()

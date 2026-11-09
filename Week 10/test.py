@@ -1,7 +1,6 @@
 from DigitalProduct import DigitalProduct
 from inventory import Inventory
 from order import Order
-from orderline import OrderLine
 from PhysicalProduct import PhysicalProduct
 from product import Product
 from supplier import Supplier
