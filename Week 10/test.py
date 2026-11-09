@@ -1,9 +1,10 @@
-from supplier import Supplier
-from PhysicalProduct import PhysicalProduct
 from DigitalProduct import DigitalProduct
 from inventory import Inventory
 from order import Order
 from orderline import OrderLine
+from PhysicalProduct import PhysicalProduct
+from product import Product
+from supplier import Supplier
 
 #supplier Info: created on its own, before any product
 apple = Supplier("S001", "Apple", "orders@apple.example")
@@ -95,3 +96,25 @@ print(line_in_order1.get_product() is line_in_order2.get_product())
 print("\nAfter del order1: does the product still exist?")
 del order1
 macbook.display_information()
+
+print("\n Test 6.2:LSP")
+
+def show_product_detials(product: Product)->None:
+        product.display_information()
+        print(product.get_fulfilment_info())
+
+
+#same function, given a PhysicalProduct
+print("\nshow_product_details with a PhysicalProduct")
+show_product_detials(macbook)
+
+#same function, given a DigitalProduct
+print("\nshow_product_details with a DigitalProduct")
+show_product_detials(macos)
+
+#both product types in ONE inventory, using its normal operations
+print("\nBoth product types in one Inventory")
+inventory = Inventory()
+inventory.add_product(macbook)
+inventory.add_product(macos)
+inventory.display_all()

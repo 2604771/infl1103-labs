@@ -10,7 +10,7 @@ class DigitalProduct(Product):
     def display_information(self)->None:
         super().display_information()
         print(f"Download size: {self.__download_size} MB")
-        print(self.get_fulfilment_info())
+     
 
     def get_fulfilment_info(self)->None:
         return "This product is delivered digitally via download"
@@ -20,7 +20,7 @@ class DigitalProduct(Product):
         data["type"]= "digital"
         data["download size"] = self.__download_size
         return data
-        
+
 
 if __name__ == "__main__":
     Apple = Supplier("S001", "@Apple","sales@Apple.com")
