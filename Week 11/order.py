@@ -1,12 +1,19 @@
 from orderline import OrderLine
 from product import Product
-
+from discountstrategies import DiscountStrategy
+from nodiscount import NoDiscount
 
 #It creates and owns its OrderLine parts (composition).
 class Order:
-    def __init__(self, order_id: str):
+    def __init__(self, order_id: str, discount: DiscountStrategy = NoDiscount()) -> None:
         self.__order_id: str = order_id
         self.__order_lines: list[OrderLine] = []
+        self.__discount :DiscountStrategy = discount
+
+    def set_discount(self, discount: DiscountStrategy) -> None:
+        self.__discount = discount
+
+
 
     
     #gives back a COPY of the list, so outside code can look but can't add/remove lines itself
@@ -20,13 +27,16 @@ class Order:
 
     #ask each OrderLine for its own subtotal and add them up
     def calculate_total(self) -> float:
-        total = 0.0
-        for line in self.__order_lines:
-            total = total + line.calculate_subtotal()
-        return total
+        total = sum(line.calculate_subtotal() for line in self.__order_lines)
+        return self.__discount.apply(total)
 
     def display_order(self) -> None:
         print(f"\nOrder {self.__order_id}")
         for line in self.__order_lines:
             line.display_information()
         print(f"Total: ${self.calculate_total():.2f}")
+
+
+
+
+        
