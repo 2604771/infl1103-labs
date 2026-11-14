@@ -1,3 +1,4 @@
+import csv
 import json
 import os
 
@@ -25,17 +26,18 @@ def get_stock_input(prompt):
          continue
         return stock
 
-def get_positive_float(prompt):
+def get_positive_float(prompt: str) -> float:
     while True:
         try:
             value = float(input(prompt))
         except ValueError:
-            print("Invalid input. Please enter a number.")
+            print("Please enter a valid number, e.g. 12.50")
             continue                      # skip the rest, ask again
-        if value < 0:
-            print("Invalid input. Value cannot be negative.")
+        if value <= 0:
+            print("Please enter a number greater than zero.")
             continue
-        return value                      # valid → hand it back (also ends the loop)
+          #valid wll hand it back (also ends the loop)
+        return value                    
 
 #Inventory class (Adds Prodcuts)
 def menu_add_product(inventory: Inventory):
@@ -134,7 +136,31 @@ def load_inventory():
       
     return inventory
 
-#File handling class 
+#Section 5.2: load products from a CSV file through the ProductFactory
+def load_products(path: str, inventory: Inventory, supplier: Supplier) -> None:
+    try:
+        file = open(path, newline="")
+    except FileNotFoundError:
+        print(f"Products file not found: {path}")
+    else:
+        loaded = 0
+        with file:
+            reader = csv.reader(file)
+            next(reader, None)
+            for row in reader:
+                try:
+                    product_type, product_id, name, price, stock_quantity = row
+                    product = ProductFactory.create(product_type, product_id, name,
+                                                    float(price), int(stock_quantity), supplier)
+                    inventory.add_product(product)
+                    loaded += 1
+                except ValueError as error:
+                    print(f"Skipped row {row}: {error}")
+        print(f"{loaded} products loaded.")
+    finally:
+        print("Load attempt finished.")
+
+#File handling class
 def save_inventory(inventory: Inventory):
     data = []
     for product in inventory.get_products():     
@@ -186,7 +212,8 @@ def main():
             print("Invalid option. Please enter 1-6.")
 
 
-main()
+if __name__ == "__main__":
+    main()
 
    
 
