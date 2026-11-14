@@ -3,6 +3,8 @@ from product import Product
 #OrderLine:one product + how many. It REFERS to a Product (association), it does not own it.
 class OrderLine:
     def __init__(self, product: Product, quantity: int):
+        if quantity <= 0:
+            raise ValueError("Quantity must be greater than zero.")
         self.__product: Product = product
         self.__quantity: int = quantity
 
