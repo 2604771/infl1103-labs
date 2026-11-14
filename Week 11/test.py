@@ -1,27 +1,33 @@
-from DigitalProduct import DigitalProduct
-from inventory import Inventory
 from order import Order
-from PhysicalProduct import PhysicalProduct
-from product import Product
 from supplier import Supplier
 from bulkdiscount import BulkDiscount
 from percentagediscount import PercentageDiscount
 from studentdiscount import StudentDiscount
+from productfactory import ProductFactory
 
 
-    
 #supplier Info: created on its own, before any product
 apple = Supplier("S001", "Apple", "orders@apple.example")
 
 #PhysicalProduct
-macbook = PhysicalProduct("P001", "MacBook Air", 1000.00, 10, 2.0, apple)
+macbook = ProductFactory.create("physical", "P001", "MacBook Air", 1000.00, 10, apple, weight=2.0)
 #DigitalProduct
-macos = DigitalProduct("D001", "macOS", 0.00, 100, 12000, apple)
+macos = ProductFactory.create("digital", "D001", "macOS", 19.99, 100, apple, download_size=12000)
 
+
+print("\n 3.2 Factory pattern ")
+macbook.display_information()
+print(macbook.to_dict())
+macos.display_information()
+print(macos.to_dict())
+
+for weight in [0.5, 2.0, 10.0]:
+    item = ProductFactory.create("physical", "T001", "Test box", 10.00, 1, apple, weight=weight)
+    print(f"{weight} kg -> shipping ${item.calculate_shipping_cost():.2f}")
 
 
 print("\n 2.3 Strategy pattern ")
-desk = PhysicalProduct("P010", "Desk", 50.00, 20, 10.0, apple)
+desk = ProductFactory.create("physical", "P010", "Desk", 50.00, 20, apple, weight=10.0)
 strategy_order = Order("O100", BulkDiscount(200, 20))
 strategy_order.add_order_line(desk, 5)                 # 5 x 50 = 250
 print("Bulk discount total:", strategy_order.calculate_total())
@@ -31,3 +37,7 @@ print("Percentage discount total:", strategy_order.calculate_total())
 print("\n 2.4 Extend without modifying ")
 strategy_order.set_discount(StudentDiscount())
 print("Student discount total:", strategy_order.calculate_total())
+
+
+print("\n 3.2 Unknown product type ")
+ProductFactory.create("service", "S001", "AppleCare", 99.00, 5, apple)

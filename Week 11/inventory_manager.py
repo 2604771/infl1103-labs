@@ -1,9 +1,8 @@
 import json
 import os
 
-from DigitalProduct import DigitalProduct
 from inventory import Inventory
-from PhysicalProduct import PhysicalProduct
+from productfactory import ProductFactory
 from supplier import Supplier
 
 #Requirement 2: Data manipulation 
@@ -60,11 +59,11 @@ def menu_add_product(inventory: Inventory):
 
     if product_type == "P":
        weight= get_positive_float("Weight(Kg):")
-       product = PhysicalProduct (product_id, name, price, stock, weight, SUPPLIER)
+       product = ProductFactory.create("physical",product_id, name, price, stock,SUPPLIER, weight=weight)
 
     elif product_type == "D":
         download_size= get_positive_float("Download size(Mb):")
-        product = DigitalProduct(product_id, name, price, stock, download_size, SUPPLIER)
+        product = ProductFactory.create("digital", product_id, name, price, stock,SUPPLIER, download_size=download_size)
 
     else:
         print("Invalid product type. Please enter P or D")
@@ -129,17 +128,10 @@ def load_inventory():
         ]
 
     for item in data: 
-        if item["type"] == "physical":
-            product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item ["weight"], SUPPLIER)
-
-        elif item["type"] == "digital":
-            product= DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item ["download size"], SUPPLIER)
-
-        inventory.add_product(product) #function in inventory class
-        
-
+           product = ProductFactory.create(item["type"], item["id"], item["name"], item["price"], item["stock"], SUPPLIER,
+            weight=item.get("weight", 0.0), download_size=item.get("download size", 0.0))
+           inventory.add_product(product) 
       
-
     return inventory
 
 #File handling class 

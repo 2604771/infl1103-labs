@@ -20,17 +20,3 @@ class DigitalProduct(Product):
         data["type"]= "digital"
         data["download size"] = self.__download_size
         return data
-
-
-if __name__ == "__main__":
-    Apple = Supplier("S001", "@Apple","sales@Apple.com")
-    MacOs = DigitalProduct("P001", "MacOs", 299.99,10, 2.0, Apple)
-    MacOs.display_information()
-    print(MacOs.to_dict())
-    
-
-
-
-
-
-        

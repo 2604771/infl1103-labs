@@ -26,17 +26,3 @@ class PhysicalProduct(Product, CanBeShipped):
         data["type"] = "physical"
         data["weight"] = self.__weight #child extra attribute
         return data #return the finished dict
-    
-
-if __name__ == "__main__":
-    Apple = Supplier("S001", "Apple", "sales@Apple.com")#Suppplier
-    Macbook = PhysicalProduct("P001", "Macbook Air", 1000.00,10, 2.0,Apple)
-    Macbook.display_information()
-    print(f"Shipping cost: ${Macbook.calculate_shipping_cost():.2f}")
-    print(Macbook.to_dict())
-   
-    
-    for weight in [0.5, 2.0, 10.0]:
-        item = PhysicalProduct("T001", "Test box", 10.00, 1, weight,Apple)
-        print(f"{weight} kg -> shipping ${item.calculate_shipping_cost():.2f}")
-        
