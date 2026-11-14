@@ -1,0 +1,64 @@
+from abc import ABC, abstractmethod
+
+from supplier import Supplier
+
+#SRP: Product is responsible for representing and managing ONE product.
+#It does not load/save files, ask for user input, or manage the whole inventory.
+
+MAX_STOCK = 500
+
+class Product(ABC):
+    #from Week 5 line 66: {"id": product_id, "name": name, "price": price, "stock": stock}
+    #each dict key becomes a private attribute
+    def __init__(self, product_id:str, name:str, price:float, stock:int, supplier: Supplier):
+        self.__product_id = product_id
+        self.__name = name
+        self.__price = price
+        self.__stock = stock
+        self.__supplier:Supplier = supplier #supplier class 
+
+    #getters: outside code can READ the values, but can't change them directly
+    def get_product_id(self) ->str:
+        return self.__product_id
+
+    def get_name(self)->str:
+        return self.__name
+
+    def get_price(self)->float:
+        return self.__price
+
+    def get_stock(self)->int:
+        return self.__stock
+
+    @abstractmethod
+    def get_fulfilment_info(self)->str:
+        pass 
+
+
+    #the product checks the value itself before accepting it (encapsulation)
+    #returns True/False so the caller decides what message to show the user
+    def update_stock(self, quantity:int)->bool:
+        if quantity < 0 or quantity > MAX_STOCK:
+            return False
+        self.__stock = quantity
+        return True
+    
+    def get_supplier(self) -> Supplier:
+        return self.__supplier
+
+    #from Week 5 lines 36-37: the f-string that prints one product
+    def display_information(self) ->None:
+        print(f"ID:{self.__product_id} | Name:{self.__name} | "
+              f"Price: ${self.__price:.2f} | Stock:{self.__stock}")
+        self.__supplier.display_information()
+
+    #json can't save objects, so the product turns itself back into a dict for saving
+    def to_dict(self)->dict:
+        return {"id": self.__product_id, "name": self.__name,
+                "price": self.__price, "stock": self.__stock}
+    
+
+
+if __name__ == "__main__":
+    mystery = Product("P999", "Mystery", 10.0, 5)
+
