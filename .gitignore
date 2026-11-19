@@ -14,3 +14,4 @@ venv/
 .idea/
 # Word lock files
 ~$*
+.pytest_cache/
