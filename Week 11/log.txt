@@ -1,0 +1,37 @@
+﻿commit 543f24b7bb42dc70a8150ad49a4f52a37f837fef
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Thu Nov 19 15:41:16 2026 +0800
+
+    Lab 9 Section 7: automated tests with pytest
+
+commit b9865a0c2375f8cb853ce69fad3ace272727a2ca
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Sat Nov 14 23:58:37 2026 +0800
+
+    Lab 9 Section 5: exception handling for input and CSV loading
+
+commit 1958d76ca10d77059b7383d32c0c5022db9c17b7
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Sat Nov 14 23:43:46 2026 +0800
+
+    Add Validation
+
+commit d1115eb70b3db09f47d5350385dd3c1da0a325c8
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Sat Nov 14 23:33:19 2026 +0800
+
+    Lab 9 Section 3: Factory pattern for creating products
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+commit cee9ec6a408860bd90a60de837aa262e2b654bc0
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Sat Nov 14 17:59:42 2026 +0800
+
+    Strategy pattern for order discounts
+
+commit aa90ddc62d87ad671166e5a769cdd5751d514a17
+Author: Hariz <2604771@sit.singaporetech.edu.sg>
+Date:   Sat Nov 14 15:18:59 2026 +0800
+
+    Created Week 11 work
